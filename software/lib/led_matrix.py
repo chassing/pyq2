@@ -22,23 +22,23 @@ try:
 except ImportError:
     import struct
 
-R0 = 1
-R1 = R0 << 1
-R2 = R1 << 1
-R3 = R2 << 1
-R4 = R3 << 1
-R5 = R4 << 1
-R6 = R5 << 1
-R7 = R6 << 1
-R8 = R7 << 1
-R9 = R8 << 1
+R0 = 2 ** 15
+R1 = R0 >> 1
+R2 = R1 >> 1
+R3 = R2 >> 1
+R4 = R3 >> 1
+R5 = R4 >> 1
+R6 = R5 >> 1
+R7 = R6 >> 1
+R8 = R7 >> 1
+R9 = R8 >> 1
 
 
 class Matrix:
     """LED Matrix wrapper."""
 
-    # 2 bytes for all columns + 2 bytes for all rows (shift register on cathode are inverted)
-    off = b'\x00\x00\xff\xff'
+    # 2 bytes for all columns + 2 bytes for all rows
+    off = b'\x00\x00\x00\x00'
 
     def __init__(self):
         self._current_col = 0
@@ -122,12 +122,12 @@ class Matrix:
         self._set([6, 7, 8, 9, 10], R8)
 
     def done(self):
-        self.columns = [struct.pack('<HH', 1 << i, v ^ 2 ** 16 - 1) for i, v in enumerate(self._m) if v > 0]
+        self.columns = [struct.pack('<H', 1 << i) + struct.pack('>H', v) for i, v in enumerate(self._m) if v > 0]
 
     def debug(self):
         for r in range(0, 10):
             for c in self._m:
-                print("{0:{fill}16b}".format(c, fill='0')[-r - 1], end='')  # noqa
+                print("{0:{fill}16b}".format(c, fill='0')[r], end='')  # noqa
             print()
         print()
 
@@ -251,25 +251,25 @@ if __name__ == '__main__':
 
     matrix = clock2matrix(1, 0)
     matrix.debug()
-    matrix = clock2matrix(1, 5)
-    matrix.debug()
-    matrix = clock2matrix(1, 10)
-    matrix.debug()
-    matrix = clock2matrix(1, 15)
-    matrix.debug()
-    matrix = clock2matrix(1, 20)
-    matrix.debug()
-    matrix = clock2matrix(1, 25)
-    matrix.debug()
-    matrix = clock2matrix(1, 30)
-    matrix.debug()
-    matrix = clock2matrix(1, 35)
-    matrix.debug()
-    matrix = clock2matrix(1, 40)
-    matrix.debug()
-    matrix = clock2matrix(1, 45)
-    matrix.debug()
-    matrix = clock2matrix(1, 50)
-    matrix.debug()
-    matrix = clock2matrix(1, 55)
-    matrix.debug()
+    # matrix = clock2matrix(1, 5)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 10)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 15)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 20)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 25)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 30)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 35)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 40)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 45)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 50)
+    # matrix.debug()
+    # matrix = clock2matrix(1, 55)
+    # matrix.debug()

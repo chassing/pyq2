@@ -28,7 +28,6 @@ def main():
         year, month, day, hour, minute, second, *_ = rtc.now()
         # initial trigger timer
         timer = Timer(3, mode=Timer.PERIODIC, width=32)
-        # timer_channel = timer.channel(Timer.A | Timer.B, period=(60 - second) * 1000000)
         timer_channel = timer.channel(Timer.A | Timer.B, period=30000000)
         timer_channel.irq(handler=lambda t: trigger.toggle(), trigger=Timer.TIMEOUT)
 
@@ -76,6 +75,3 @@ rtc = settime(timezone_offset=TIMEZONE_OFFSET)
 if __name__ == '__main__':
     main()
     matrix_off()
-
-
-# spalte I geht nicht

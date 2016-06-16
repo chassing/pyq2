@@ -50,7 +50,6 @@ def main():
                     latch.value(1)
                     latch.value(0)
 
-            # set new trigger timer
             year, month, day, hour, minute, second, *_ = rtc.now()
 
             # update rtc at 04:00

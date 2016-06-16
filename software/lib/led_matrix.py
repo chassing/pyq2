@@ -107,7 +107,7 @@ class Matrix:
         self._set([0, 1, 2, 3, 4, 5], R8)
 
     def h_acht(self):
-        self._set([7, 8, 9, 10], R8)
+        self._set([7, 8, 9, 10], R7)
 
     def h_neun(self):
         self._set([3, 4, 5, 6], R9)

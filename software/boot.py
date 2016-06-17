@@ -6,7 +6,16 @@ import os
 import machine
 from network import WLAN
 
-# repl on serial first
+# disable LED matrix first
+latch = machine.Pin('GP13', mode=machine.Pin.OUT)
+latch.value(0)
+
+spi = machine.SPI(0, mode=machine.SPI.MASTER, bits=32, pins=('GP14', 'GP16', 'GP15'))
+spi.write(b'\x00\x00\x00\x00')
+latch.value(1)
+latch.value(0)
+
+# repl on serial
 os.dupterm(machine.UART(0, 115200))
 
 # now wifi

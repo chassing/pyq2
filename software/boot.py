@@ -13,7 +13,6 @@ latch.value(0)
 spi = machine.SPI(0, mode=machine.SPI.MASTER, bits=32, pins=('GP14', 'GP16', 'GP15'))
 spi.write(b'\x00\x00\x00\x00')
 latch.value(1)
-latch.value(0)
 
 # repl on serial
 os.dupterm(machine.UART(0, 115200))

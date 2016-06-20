@@ -2,7 +2,7 @@
 
 from machine import Pin, SPI, Timer
 import micropython
-from utime import sleep_ms
+from utime import sleep_ms, sleep_us
 
 from led_matrix import Matrix, clock2matrix
 from untplib import settime
@@ -19,7 +19,6 @@ def matrix_off():
     spi.write(OFF)
     # update LEDs
     latch.value(1)
-    latch.value(0)
 
 
 def main():
@@ -43,17 +42,23 @@ def main():
             current_trigger = trigger.value()
             while trigger.value() == current_trigger:
                 for col in leds:
+                    latch.value(0)
                     # write current time
                     spi.write(col)
                     # update LEDs
                     latch.value(1)
-                    latch.value(0)
 
                     sleep_ms(1)
 
+                    latch.value(0)
+                    spi.write(OFF)
+                    latch.value(1)
+
+                    sleep_us(50)
+
+            latch.value(0)
             spi.write(OFF)
             latch.value(1)
-            latch.value(0)
 
             year, month, day, hour, minute, second, *_ = rtc.now()
 
